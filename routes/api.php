@@ -21,6 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix'=>'user','middleware'=>['api','cors']], function () {
     Route::post('/register',function(Request $request){
         $data = $request->get('user');
-        return $data->name;
+        return json_encode(["name"=>"gehuachun","title"=>"first post"]);
     });
 });
