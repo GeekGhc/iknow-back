@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get("/log/put",function(){
+   Log::warning("This is error log");
+});

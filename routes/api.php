@@ -19,8 +19,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //用户组路由
 Route::group(['prefix'=>'user','middleware'=>['api','cors']], function () {
-    Route::post('/register',function(Request $request){
-        $data = $request->get('user');
-        return json_encode(["name"=>"gehuachun","title"=>"first post"]);
-    });
+    Route::post('/register','UserController@store');
+    Route::post('/login','UserController@login');
+});
+
+//用户验证路由
+Route::group(['prefix'=>'unique','middleware'=>['api','cors']], function () {
+    Route::get('/name/{value}','ValidateController@ValidateName');
+    Route::get('/email/{value}','ValidateController@ValidateEmail');
 });
