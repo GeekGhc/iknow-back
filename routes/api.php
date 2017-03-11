@@ -19,8 +19,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //用户组路由
 Route::group(['prefix'=>'user','middleware'=>['api','cors']], function () {
-    Route::post('/register','UserController@store');
-    Route::post('/login','UserController@login');
+    Route::post('/register','UserController@store');//用户注册
+    Route::get('/login/validation','UserController@loginValidation');//用户登录字段数据检验
+    Route::post('/login','UserController@login');//用户进行登录
+    Route::get('/login/isLogin','UserController@isLogin');//判断用户是否已经登录
 });
 
 //用户验证路由

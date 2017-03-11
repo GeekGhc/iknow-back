@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get("/log/put",function(){
+Route::get("/aaa",function(){
    Log::warning("This is error log");
 });
+
+Route::get("/test",'UserController@test');
