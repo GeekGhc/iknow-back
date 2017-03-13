@@ -21,9 +21,10 @@ class UserController extends Controller
 //        Session::forget('ddd');
 //        $request->session()->regenerate();
 //        session(['key1234' => 'value']);
-        dd($request->session()->all());
-
+//        dd($request->session()->all());
+        dd(Session::getId());
     }
+
 
     /**
      * Display a listing of the resource.
@@ -54,7 +55,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = [
-            'avatar' => '/images/avatar/default.png',
+            'avatar' => '/static/images/avatar/default/my-avatar.jpg',
             'confirm_code' => str_random(48),
         ];
         $user = User::create(array_merge($request->get('user'), $data));
@@ -62,28 +63,25 @@ class UserController extends Controller
     }
 
     //登录验证
-    public function loginValidation()
+    public function loginValidation(Request $request)
     {
-        $email = Input::get("email");
-        $pwd = Input::get("pwd");
-        if(Auth::attempt([
-            'email'=>$email,
-            'password'=>$pwd
-        ])){
-            return response()->json(true);
-        }
-        return response()->json(false);
+
     }
 
     //用户登录
     public function login(Request $request)
     {
+        \Log::info("dsfbdjfhb");
         $data = $request->get('user');
-        \Log::info($data["email"]);
-        $user = User::where("email", $data["email"])->first();
-        session(["aaa"=>"bbb"]);
-        \Log::info(session('aaa'));
-        return json_encode(["user" => $user, "status" => true]);
+        \Log::info($data);
+        if(Auth::attempt([
+            'email'=> $data['email'],
+            'password'=>$data['password']
+        ])){
+            $user = User::where('email',$data['email'])->first();
+            return json_encode(['user'=>$user,'status'=>true]);
+        }
+        return json_encode([['user'=>null,'status'=>false]]);
     }
 
     //检查用户是否已经登录
