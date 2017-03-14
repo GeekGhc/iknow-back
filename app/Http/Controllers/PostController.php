@@ -35,7 +35,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = Post::create($request->get('post'));
+        \Log::info($request->get('post'));
+        return json_encode(["post" => $post->id, "status" => "success"]);
     }
 
     /**

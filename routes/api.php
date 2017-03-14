@@ -30,3 +30,8 @@ Route::group(['prefix'=>'unique','middleware'=>['api','cors']], function () {
     Route::get('/name/{value}','ValidateController@ValidateName');
     Route::get('/email/{value}','ValidateController@ValidateEmail');
 });
+
+//帖子组路由
+Route::group(['middleware'=>['api','cors']], function () {
+    Route::resource('/post','PostController');
+});

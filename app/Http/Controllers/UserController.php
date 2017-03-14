@@ -71,7 +71,6 @@ class UserController extends Controller
     //用户登录
     public function login(Request $request)
     {
-        \Log::info("dsfbdjfhb");
         $data = $request->get('user');
         \Log::info($data);
         if(Auth::attempt([

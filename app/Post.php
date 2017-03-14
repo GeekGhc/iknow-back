@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $fillable = [
-        'title', 'body',  'user_id', 'last_user_id', 'comment_count','is_first'
+        'body','html_body','user_id', 'last_user_id', 'comment_count','vote_count','is_first'
     ];
 
     //帖子----用户
     public function user()
     {
-        return $this->belongsTo('App\User');//$discussion->user()
+        return $this->belongsTo('App\User');//$post->user()
     }
 
     //帖子----最后更新用户
