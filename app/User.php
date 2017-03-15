@@ -24,8 +24,8 @@ class User extends Authenticatable
     }
 
     //用户----帖子
-    public function discussions()
+    public function posts()
     {
-        return $this->hasMany(Post::class);//$user->discussions()
+        return $this->hasMany(Post::class);//$user->posts()
     }
 }

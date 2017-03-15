@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Profile;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -14,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::with('user')->latest()->get();
+        return json_encode(["posts" => $posts, "status" => "true"]);
     }
 
     /**
@@ -24,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -35,20 +37,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $post = Post::create($request->get('post'));
-        \Log::info($request->get('post'));
-        return json_encode(["post" => $post->id, "status" => "success"]);
+        $newPost = Post::create($request->get('post'));
+        $post = Post::with('user')->find($newPost->id);
+        return json_encode(["post" => $post, "status" => true]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Post  $post
+     * @param  \App\Post
      * @return \Illuminate\Http\Response
      */
     public function show(Post $post)
     {
-        //
+
     }
 
     /**

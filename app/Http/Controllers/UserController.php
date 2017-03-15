@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use Session;
 use Illuminate\Support\Facades\Input;
 use Log;
@@ -13,16 +14,8 @@ class UserController extends Controller
 {
     public function test(Request $request)
     {
-//        Session::put("name","gavin");
-//        Session(["name"=>"ghcgchc"]);
-//        session(["name"=>"balabala"]);
-//        dd(Session::getId());
-//        Session::put("ddd","sss");
-//        Session::forget('ddd');
-//        $request->session()->regenerate();
-//        session(['key1234' => 'value']);
-//        dd($request->session()->all());
-        dd(Session::getId());
+        $post = Post::with('user')->find(1);
+        return json_encode($post);
     }
 
 
