@@ -22,5 +22,11 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
+    //帖子----评论
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);//$post->comments
+    }
+
 
 }

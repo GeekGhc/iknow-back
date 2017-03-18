@@ -35,3 +35,9 @@ Route::group(['prefix'=>'unique','middleware'=>['api','cors']], function () {
 Route::group(['middleware'=>['api','cors']], function () {
     Route::resource('/post','PostController');
 });
+
+//用户帖子路由
+Route::group(['prefix'=>'user','middleware'=>['api','cors']], function () {
+    Route::post('/post','PostController@userPost');//用户帖子
+    Route::delete('/post/{postId}','PostController@userPostDelete');//用户删除帖子
+});
