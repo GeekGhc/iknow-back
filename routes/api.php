@@ -41,3 +41,16 @@ Route::group(['prefix'=>'user','middleware'=>['api','cors']], function () {
     Route::post('/post','PostController@userPost');//用户帖子
     Route::delete('/post/{postId}','PostController@userPostDelete');//用户删除帖子
 });
+
+//评论组路由
+Route::group(['middleware'=>['api','cors']], function () {
+    Route::post('/comment','CommentController@store');
+    Route::get('/post/{postId}/comment','CommentController@index');
+});
+
+//用户收藏帖子组路由
+Route::group(['middleware'=>['api','cors']], function () {
+    Route::post('/post/collect','CollectController@store');//用户收藏帖子
+    Route::get('/user/{userId}/collect','CollectController@getCollectList');//用户收藏的帖子列表
+    Route::get('/user/{userId}/post/{postId}','CollectController@hasCollected');//用户是否已经收藏了该帖子
+});

@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Post;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index($postId)
     {
-        //
+        $post = Post::find($postId);
+        $commentsId = $post->comments->pluck('id')->toArray();
+        $comments = Comment::with(['user','toUser'])->find($commentsId);
+        return json_encode(["comments" => $comments, "status" => "true"]);
     }
 
     /**
@@ -35,7 +35,9 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newComment = Comment::create($request->get('comment'));
+        $comment = Comment::with(['user','toUser'])->find($newComment->id);
+        return json_encode(["comment" => $comment, "status" => true]);
     }
 
     /**

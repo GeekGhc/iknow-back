@@ -26,6 +26,24 @@ class User extends Authenticatable
     //用户----帖子
     public function posts()
     {
-        return $this->hasMany(Post::class);//$user->posts()
+        return $this->hasMany(Post::class);//$user->posts
+    }
+
+    //用户----评论
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);//$user->comments
+    }
+
+    //用户----帖子(收藏)
+    public function collect()
+    {
+        return $this->belongsToMany(Post::class,'collects')->withTimestamps();
+    }
+
+    //收藏帖子
+    public function collectThis($post)
+    {
+        $this->collect()->toggle($post);
     }
 }

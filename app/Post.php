@@ -25,7 +25,13 @@ class Post extends Model
     //帖子----评论
     public function comments()
     {
-        return $this->hasMany(Comment::class);//$post->comments
+        return $this->hasMany('App\Comment');//$post->comments
+    }
+
+    //帖子---用户(收藏)
+    public function collected()
+    {
+        return $this->belongsToMany(User::class,'collects')->withTimestamps();
     }
 
 
