@@ -11,13 +11,13 @@ class Comment extends Model
     //评论----用户
     public function user()
     {
-        return $this->belongsTo('App\User');//$comment->user
+        return $this->belongsTo('App\User','user_id');//$comment->user
     }
 
     //评论---回复用户
     public function toUser()
     {
-        return $this->belongsTo(User::class,'to_user_id');
+        return $this->belongsTo('App\User','to_user_id');
     }
 
     //评论----帖子

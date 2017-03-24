@@ -13,7 +13,7 @@ class Post extends Model
     //帖子----用户
     public function user()
     {
-        return $this->belongsTo('App\User');//$post->user()
+        return $this->belongsTo('App\User');//$post->user
     }
 
     //帖子----最后更新用户

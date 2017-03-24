@@ -9,7 +9,14 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
 
-    public function index($postId)
+    public function index($commentId)
+    {
+        $comment = Comment::with(['user','toUser'])->find($commentId);
+        dd($comment->toUser->name);
+    }
+
+    //帖子的所有评论
+    public function postComments($postId)
     {
         $post = Post::find($postId);
         $commentsId = $post->comments->pluck('id')->toArray();
@@ -35,7 +42,11 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $newComment = Comment::create($request->get('comment'));
+        $newComment = $request->get('comment');
+        $newComment = Comment::create($newComment);
+        $post = Post::find($newComment['post_id']);
+        $post->comment_count++;
+        $post->save();
         $comment = Comment::with(['user','toUser'])->find($newComment->id);
         return json_encode(["comment" => $comment, "status" => true]);
     }

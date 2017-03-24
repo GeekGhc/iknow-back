@@ -46,4 +46,16 @@ class User extends Authenticatable
     {
         $this->collect()->toggle($post);
     }
+
+    //用户---点赞
+    public function like()
+    {
+        return $this->belongsToMany(Like::class,'likes')->withTimestamps();
+    }
+
+    //给帖子点赞
+    public function likeThis($post)
+    {
+        $this->like()->toggle($post);
+    }
 }

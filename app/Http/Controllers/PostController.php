@@ -40,9 +40,10 @@ class PostController extends Controller
      * @param  \App\Post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($postId)
     {
-
+        $post = Post::with('user')->find($postId);
+        return json_encode(["post" => $post, "status" => true]);
     }
 
     /**

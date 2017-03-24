@@ -45,7 +45,8 @@ Route::group(['prefix'=>'user','middleware'=>['api','cors']], function () {
 //评论组路由
 Route::group(['middleware'=>['api','cors']], function () {
     Route::post('/comment','CommentController@store');
-    Route::get('/post/{postId}/comment','CommentController@index');
+    Route::get('/post/{postId}/comment','CommentController@postComments');
+    Route::get('/comment/{commentId}','CommentController@index');
 });
 
 //用户收藏帖子组路由
