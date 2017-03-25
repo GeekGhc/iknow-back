@@ -55,3 +55,9 @@ Route::group(['middleware'=>['api','cors']], function () {
     Route::get('/user/{userId}/collect','CollectController@getCollectList');//用户收藏的帖子列表
     Route::get('/user/{userId}/post/{postId}','CollectController@hasCollected');//用户是否已经收藏了该帖子
 });
+
+//用户点赞帖子组路由
+Route::group(['middleware'=>['api','cors']], function () {
+    Route::post('/user/post/like','LikeController@store');//用户点赞帖子
+    Route::get('/user/{userId}/post/{postId}/like','LikeController@hasLiked');//用户是否已经攒了该帖子
+});

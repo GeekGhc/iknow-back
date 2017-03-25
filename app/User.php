@@ -50,7 +50,7 @@ class User extends Authenticatable
     //用户---点赞
     public function like()
     {
-        return $this->belongsToMany(Like::class,'likes')->withTimestamps();
+        return $this->belongsToMany(Post::class,'likes')->withTimestamps();
     }
 
     //给帖子点赞
