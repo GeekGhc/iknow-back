@@ -58,4 +58,10 @@ class User extends Authenticatable
     {
         $this->like()->toggle($post);
     }
+
+    //用户---消息
+    public function messages()
+    {
+        return $this->hasMany(Message::class,'to_user_id');
+    }
 }
