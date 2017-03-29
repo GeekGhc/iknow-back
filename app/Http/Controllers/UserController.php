@@ -85,8 +85,10 @@ class UserController extends Controller
     //用户的个人资料
     public function profile($userId)
     {
+        $user = User::find($userId);
         $profile = Profile::where('user_id',$userId)->first();
-        return json_encode(['profile'=>$profile,'status'=>true]);
+        $data = array_merge(['name'=>$user->name],$profile->toArray());
+        return json_encode(['profile'=>$data,'status'=>true]);
 
     }
 
@@ -104,7 +106,7 @@ class UserController extends Controller
             'site'=>$data['site'],
             'description'=>$data['description']
         ]);
-        return json_encode(['status'=>true]);
+        return json_encode(['user'=>$data['name'],'status'=>true]);
     }
 
 
