@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Profile;
 use Session;
 use Illuminate\Support\Facades\Input;
 use Log;
@@ -44,6 +45,7 @@ class UserController extends Controller
             'confirm_code' => str_random(48),
         ];
         $user = User::create(array_merge($request->get('user'), $data));
+        $profile = Profile::create(['user_id'=>$user->id]);
         return json_encode(["user_id" => $user->id, "status" => "success"]);
     }
 
@@ -83,14 +85,29 @@ class UserController extends Controller
     //用户的个人资料
     public function profile($userId)
     {
+        $profile = Profile::where('user_id',$userId)->first();
+        return json_encode(['profile'=>$profile,'status'=>true]);
 
     }
 
-   //更新用户的个人资料
-    public function update(Request $request, User $user)
+    //更新用户的个人资料
+    public function update(Request $request)
     {
-
+        $data = $request->get('data');
+        $userId = $request->get('userId');
+        $user = User::find($userId);
+        $user->name = $data['name'];
+        $user->save();
+        $res = Profile::where('user_id',$userId)->update([
+            'phone'=>$data['phone'],
+            'city'=>$data['city'],
+            'site'=>$data['site'],
+            'description'=>$data['description']
+        ]);
+        return json_encode(['status'=>true]);
     }
+
+
 
     //用户的个人主页
     public function account($userId)
@@ -99,7 +116,7 @@ class UserController extends Controller
         $showCount = [
             'posts_count'=>$user->posts->count(),
             'collect_count'=>$user->collect->count(),
-            'followers_count'=>2,
+            'followers_count'=>24,
             'following_count'=>99
         ];
         return json_encode(['user'=>$user,'showCount'=>$showCount,'status'=>true]);

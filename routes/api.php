@@ -24,6 +24,9 @@ Route::group(['prefix'=>'user','middleware'=>['api','cors']], function () {
     Route::post('/login','UserController@login');//用户进行登录
     Route::get('/login/isLogin','UserController@isLogin');//判断用户是否已经登录
 
+    Route::post('/profile','UserController@update');//用户资料修改
+    Route::get('/profile/{userId}','UserController@profile');//用户资料
+
     Route::post('/{userId}/account','UserController@account');//用户的主页
     Route::get('/profile/{userId}','UserController@profile');//用户的个人资料
     Route::patch('/profile/update','UserController@update');//用户的个人资料更新
