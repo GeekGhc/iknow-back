@@ -15,14 +15,10 @@ class UserController extends Controller
 {
     public function test(Request $request)
     {
-        $data = [
-            'posts_count'=>45,
-            'collect_count'=>56
-        ];
+
         $user = User::find(6);
-        $posts_count = $user->posts->count();
-        $collect_count = $user->collect->count();
-        return json_encode(['data'=>$data]);
+        dd($user->followers);
+
     }
 
 
@@ -114,12 +110,12 @@ class UserController extends Controller
     //用户的个人主页
     public function account($userId)
     {
-        $user = User::find($userId);
+        $user = User::with('profile')->find($userId);
         $showCount = [
             'posts_count'=>$user->posts->count(),
             'collect_count'=>$user->collect->count(),
-            'followers_count'=>24,
-            'following_count'=>99
+            'followers_count'=>$user->followers->count(),
+            'following_count'=>$user->following->count()
         ];
         return json_encode(['user'=>$user,'showCount'=>$showCount,'status'=>true]);
     }

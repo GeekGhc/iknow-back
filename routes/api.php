@@ -30,6 +30,11 @@ Route::group(['prefix'=>'user','middleware'=>['api','cors']], function () {
     Route::post('/{userId}/account','UserController@account');//用户的主页
     Route::get('/profile/{userId}','UserController@profile');//用户的个人资料
     Route::patch('/profile/update','UserController@update');//用户的个人资料更新
+
+    Route::post('/follow','FollowController@follow');//用户关注
+    Route::get('/{userId}/follow/{followedId}','FollowController@isFollow');//用户是否关注
+    Route::get('/{userId}/followers','FollowController@followers');//用户粉丝
+    Route::get('/{userId}/following','FollowController@following');//用户关注的人
 });
 
 //用户验证路由
@@ -67,4 +72,11 @@ Route::group(['middleware'=>['api','cors']], function () {
 Route::group(['middleware'=>['api','cors']], function () {
     Route::post('/user/post/like','LikeController@store');//用户点赞帖子
     Route::get('/user/{userId}/post/{postId}/like','LikeController@hasLiked');//用户是否已经攒了该帖子
+});
+
+//用户消息通知
+Route::group(['middleware'=>['api','cors']], function () {
+    Route::get('/user/{userId}/notifications','NotificationsController@getMessages');//用户的消息通知
+    Route::get('/user/{userId}/notifications/count','NotificationsController@getNotificationCount');//用户的消息个数
+    Route::post('/user/{userId}/notifications/markRead','NotificationsController@read');//标记消息已读
 });

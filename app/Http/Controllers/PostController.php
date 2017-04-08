@@ -34,12 +34,7 @@ class PostController extends Controller
         return json_encode(["post" => $post, "status" => true]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Post
-     * @return \Illuminate\Http\Response
-     */
+   //展示用户的帖子
     public function show($postId)
     {
         $post = Post::with('user')->find($postId);
@@ -69,6 +64,7 @@ class PostController extends Controller
         //
     }
 
+    //删除帖子
     public function destroy($post)
     {
         $post = Post::find($post);

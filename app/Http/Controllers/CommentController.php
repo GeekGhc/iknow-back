@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Notifications\AnswerReplyNotification;
+use App\Notifications\QuestionAnswerNotification;
 use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -45,8 +48,17 @@ class CommentController extends Controller
         $newComment = $request->get('comment');
         $newComment = Comment::create($newComment);
         $post = Post::find($newComment['post_id']);
+        $user = User::find($newComment['user_id']);
+        $toUser = User::find($newComment['to_user_id']);
         $post->comment_count++;
         $post->save();
+        if($newComment['to_user_id']){
+            $data = ['name'=>$user->name,'title'=>$post->body,'id'=>$post->id,'type'=>'reply'];
+            $toUser->notify(new AnswerReplyNotification($data));
+        }
+        $data = ['name'=>$user->name,'title'=>$post->body,'id'=>$post->id,'type'=>'comment'];
+        $post->user->notify(new QuestionAnswerNotification($data));
+
         $comment = Comment::with(['user','toUser'])->find($newComment->id);
         return json_encode(["comment" => $comment, "status" => true]);
     }

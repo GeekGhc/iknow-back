@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Collect;
+use App\Post;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,8 @@ class CollectController extends Controller
     {
         $user = User::find($request->get("userId"));
         $collect = $user->collectThis($request->get("postId"));
+        $post = Post::find($request->get('postId'));
+        $data = ['name'=>$user->name,'title'=>$post->body,'id'=>$post->id,'type'=>'collect'];
         return json_encode(["isCollect" => true, "status" => "true"]);
     }
 

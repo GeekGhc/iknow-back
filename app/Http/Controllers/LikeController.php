@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Like;
+use App\Notifications\QuestionLikeNotification;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -20,6 +21,8 @@ class LikeController extends Controller
         $count = Like::where(['user_id'=>$userId,'post_id'=>$postId])->count();
         if($count>0){//用户赞了这篇帖子
             $post->increment('vote_count');
+            $data = ['name'=>$user->name,'title'=>$post->body,'id'=>$post->id,'type'=>'like'];
+            $post->user->notify(new QuestionLikeNotification($data));
             return json_encode(["isVoted" => true, "status" => "true"]);
         }else{
             $post->decrement('vote_count');

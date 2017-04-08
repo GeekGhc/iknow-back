@@ -23,6 +23,12 @@ class User extends Authenticatable
         $this->attributes['password'] = \Hash::make($password);
     }
 
+    //用户----资料
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);//$user->profile
+    }
+
     //用户----帖子
     public function posts()
     {
@@ -63,5 +69,23 @@ class User extends Authenticatable
     public function messages()
     {
         return $this->hasMany(Message::class,'to_user_id');
+    }
+
+    //用户关注
+    public function following()
+    {
+        return $this->belongsToMany(self::class,'follows','follower_id','followed_id')->withTimestamps();
+    }
+
+    //用户的粉丝
+    public function followers()
+    {
+        return $this->belongsToMany(self::class,'follows','followed_id','follower_id')->withTimestamps();
+    }
+
+    //关注用户
+    public function followThisUser($user)
+    {
+        return $this->following()->toggle($user);
     }
 }
