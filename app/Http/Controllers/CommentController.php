@@ -55,9 +55,10 @@ class CommentController extends Controller
         if($newComment['to_user_id']){
             $data = ['name'=>$user->name,'title'=>$post->body,'id'=>$post->id,'type'=>'reply'];
             $toUser->notify(new AnswerReplyNotification($data));
+        }else{
+            $data = ['name'=>$user->name,'title'=>$post->body,'id'=>$post->id,'type'=>'comment'];
+            $post->user->notify(new QuestionAnswerNotification($data));
         }
-        $data = ['name'=>$user->name,'title'=>$post->body,'id'=>$post->id,'type'=>'comment'];
-        $post->user->notify(new QuestionAnswerNotification($data));
 
         $comment = Comment::with(['user','toUser'])->find($newComment->id);
         return json_encode(["comment" => $comment, "status" => true]);

@@ -18,7 +18,7 @@ class NotificationsController extends Controller
     public function getMessages($userId)
     {
         $user = User::find($userId);
-        if($user->unreadNotification){
+        if($user->unreadNotifications){
             return json_encode(["messages" => $user->unreadNotifications, "status" => true]);
         }else{
             return json_encode(["messages" => null, "status" => true]);
