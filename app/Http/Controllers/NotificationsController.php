@@ -18,7 +18,11 @@ class NotificationsController extends Controller
     public function getMessages($userId)
     {
         $user = User::find($userId);
-        return json_encode(["messages" => $user->notifications, "status" => true]);
+        if($user->unreadNotification){
+            return json_encode(["messages" => $user->unreadNotifications, "status" => true]);
+        }else{
+            return json_encode(["messages" => null, "status" => true]);
+        }
     }
 
     //标记全部消息为已读

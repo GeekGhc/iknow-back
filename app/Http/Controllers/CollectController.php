@@ -23,7 +23,8 @@ class CollectController extends Controller
     public function getCollectList($userId)
     {
         $user = User::find($userId);
-        $collection = $user->collect;
+        $collectionId = $user->collect->pluck('id');
+        $collection = Post::with('user')->find($collectionId->toArray());
         return json_encode(["collection" => $collection, "status" => "true"]);
     }
 
